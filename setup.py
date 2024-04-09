@@ -7,7 +7,8 @@ setup(
     install_requires=[
         'libtmux==0.36.0',
         'streamlit',
-        'streamlit-autorefresh'
+        'streamlit-autorefresh',
+        'watchdog'
     ],
 
     author='Zhanhe Shi',
