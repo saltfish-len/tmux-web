@@ -12,7 +12,7 @@
 You can install `tmux-web` via pip with the following command:
 
 ```bash
-pip install tmux-web
+pip install git+https://github.com/saltfish-len/tmux-web.git
 ```
 
 ## Usage
