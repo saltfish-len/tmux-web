@@ -85,4 +85,4 @@ class TmuxHelper:
         session = self.get_session(session_name)
         if session is None:
             return False
-        return "\n".join(session.cmd("capture-pane", "-p").stdout[-5:])
+        return "\n".join(session.cmd("capture-pane", "-p").stdout[-3:])
