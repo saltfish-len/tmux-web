@@ -7,7 +7,7 @@
 - One-command launch for your Streamlit application.
 - Convenient command-line interface for easy interaction.
 - Something like this:
-![Example interface](./images/interface.jpg)
+![Example interface](./assets/interface.png)
 
 
 ## Installation
