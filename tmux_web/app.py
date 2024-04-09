@@ -2,14 +2,13 @@ import streamlit as st
 from utils.tmux_helper import TmuxHelper
 from streamlit_autorefresh import st_autorefresh
 
-
 # 设置页面配置为宽模式
 st.set_page_config(layout="wide")
-
 
 # 创建TmuxHelper实例
 tmux_helper = TmuxHelper()
 
+# 自动刷新设置，例如每5秒刷新一次
 st_autorefresh(interval=5000, key='tmux_session_refresher')
 
 # Streamlit应用标题
@@ -18,12 +17,23 @@ st.title("Tmux Sessions Outputs")
 # 获取所有tmux会话
 session_list = tmux_helper.get_session_list()
 
-# 动态设置列数，例如根据会话数量来决定
-columns_per_row = st.number_input("Enter the number of columns", min_value=1, max_value=10, value=3)
+# 如果用户之前选择了会话顺序，使用该顺序；否则，使用默认顺序
+if 'user_ordered_sessions' not in st.session_state:
+    st.session_state.user_ordered_sessions = session_list
 
 # 让用户自定义tmux会话的显示顺序
 user_ordered_sessions = st.multiselect("Arrange the tmux sessions in the order you prefer:",
-                                       options=session_list, default=session_list)
+                                       options=session_list, default=st.session_state.user_ordered_sessions)
+
+# 更新会话状态以记住用户的选择
+st.session_state.user_ordered_sessions = user_ordered_sessions
+
+columns_per_row = 3
+if "columns_per_row" not in st.session_state:
+    st.session_state.columns_per_row = columns_per_row
+
+# 动态设置列数，例如根据会话数量来决定
+columns_per_row = st.number_input("Enter the number of columns", min_value=1, max_value=10, value=columns_per_row)  # 假设最多3列，根据需要调整
 
 
 # 对于所有会话，动态创建行和列来展示输出
