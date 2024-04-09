@@ -18,7 +18,7 @@ setup(
     # tmux-web
     entry_points={
         'console_scripts': [
-            'tmux-web = launcher:launch_streamlit'
+            'tmux-web = tmux-web.launcher:launch_streamlit'
         ]
     }
 )
