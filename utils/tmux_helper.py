@@ -5,6 +5,9 @@ class TmuxHelper:
     def __init__(self):
         self.server = libtmux.Server()
 
+    def get_session_list(self):
+        return [session.name for session in self.server.sessions]
+
     def get_session(self, session_name_or_id: str | int) -> libtmux.session.Session | None:
         """
         Get a tmux session by name or id
@@ -58,7 +61,7 @@ class TmuxHelper:
         session.set_environment(key, value)
         return True
 
-    def run_command(self, session_name: str, command: [str]):
+    def run_command(self, session_name: str, command: str):
         """
         run a command in a tmux session
         :param session_name: name of the session
@@ -68,7 +71,10 @@ class TmuxHelper:
         session = self.get_session(session_name)
         if session is None:
             return False
-        return session.cmd(*command)
+        window = session.attached_window
+        pane = window.attached_pane
+        pane.send_keys(command, enter=True)
+        return True
 
     def get_stdout(self, session_name: str):
         """
@@ -79,4 +85,4 @@ class TmuxHelper:
         session = self.get_session(session_name)
         if session is None:
             return False
-        return session.cmd("capture-pane", "-p")
+        return "\n".join(session.cmd("capture-pane", "-p").stdout[-5:])
